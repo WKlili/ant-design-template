@@ -24,7 +24,6 @@ export default {
   },
   mutations: {
     update (state, data) {
-      console.log(data)
       Object.assign(state, data)
     }
   },

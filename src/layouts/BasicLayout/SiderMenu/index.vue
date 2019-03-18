@@ -66,12 +66,12 @@ export default {
       openKeys: [],
       rootSubmenuKeys: [],
       selectedKeys: [],
-      subMenuCollapsed: true // 手风琴
+      subMenuCollapsed: true
     }
   },
   watch: {
-    $route () {
-      this.updateDefaultKeys(this.$route.name)
+    $route ({ name }) {
+      this.updateDefaultKeys(name)
     }
   },
   created () {
@@ -82,19 +82,27 @@ export default {
     this.updateDefaultKeys(this.$route.name)
   },
   methods: {
-    updateDefaultKeys (key) {
+    updateDefaultKeys (key, level) {
       const routerName = key.split('_')
       this.openKeys = [routerName[0]]
 
       if (routerName.length < 3) {
-        this.selectedKeys = [this.$route.name]
+        this.selectedKeys = [key]
         return
       }
-      this.selectedKeys = [routerName.slice(0, routerName.length - 1).join('_')]
-    },
-    jump ({ key }) {
-      this.updateDefaultKeys(key)
 
+      if ((!level && routerName.length >= 3) || level < 3) {
+        this.selectedKeys = [routerName.slice(0, routerName.length - 1).join('_')]
+        return
+      }
+
+      if (level >= 3) {
+        this.selectedKeys = [key]
+        this.openKeys.push(`${routerName[0]}_${routerName[1]}`)
+      }
+    },
+    jump ({ item, key, selectedKeys }) {
+      this.updateDefaultKeys(key, item.level)
       if (this.$route.name === key) return
 
       this.$router.push({

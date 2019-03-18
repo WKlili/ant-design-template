@@ -7,6 +7,7 @@
     <span @click.stop="$router.push({name: 'home_index_other', query: { plan: 'private' }})">
       home_other
     </span>
+    <router-view />
   </div>
 </template>
 

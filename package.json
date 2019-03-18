@@ -3,7 +3,7 @@
   "author": "WKlili",
   "version": "1.0.0",
   "description": "ant-design-template-deepexi-description",
-  "private": false,
+  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -21,7 +21,7 @@
     "store": "^2.0.12",
     "vue": "^2.6.8",
     "vue-meta": "^1.5.8",
-    "vue-router": "^3.0.1",
+    "vue-router": "^3.0.2",
     "vuex": "^3.1.0"
   },
   "devDependencies": {

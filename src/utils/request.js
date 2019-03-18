@@ -40,7 +40,7 @@ service.interceptors.response.use(
     return response.data.data
   },
   error => {
-    console.log('error', error)
+    console.error('error', error)
     return Promise.reject(error)
   }
 )

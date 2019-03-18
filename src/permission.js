@@ -1,7 +1,7 @@
 import router from './router'
 import { getToken } from './utils/token'
 
-const whiteList = ['/login']
+const whiteList = ['/login', '/register']
 
 router.beforeEach((to, from, next) => {
   if (getToken()) {

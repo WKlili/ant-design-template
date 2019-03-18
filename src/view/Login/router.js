@@ -1,6 +1,6 @@
 export const login = {
   path: '/login',
-  name: 'Login',
+  name: 'login',
   hidden: true,
   meta: {
     name: '登录'
@@ -10,7 +10,7 @@ export const login = {
 
 export const register = {
   path: '/register',
-  name: 'Register',
+  name: 'register',
   hidden: true,
   meta: {
     name: '注册'

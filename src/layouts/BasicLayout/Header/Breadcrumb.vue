@@ -40,7 +40,6 @@ export default {
       this.$router.push({
         name: router.name
       })
-      console.log(router)
     }
   }
 }

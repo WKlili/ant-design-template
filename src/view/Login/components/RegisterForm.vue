@@ -3,13 +3,12 @@
     <a-form
       id="formRegister"
       ref="formRegister"
-      :auto-form-create="autoFormCreate">
-      <a-form-item
-        :field-decorator-options="formItemOptions.username"
-        field-decorator-id="username">
+      :form="form">
+      <a-form-item>
         <a-input
-          autocomplete="username"
+          v-decorator="formItemOptions.username"
           size="large"
+          :autocomplete="false"
           placeholder="用户名">
           <a-icon
             slot="prefix"
@@ -18,11 +17,10 @@
         </a-input>
       </a-form-item>
 
-      <a-form-item
-        :field-decorator-options="formItemOptions.nickname"
-        field-decorator-id="nickname">
+      <a-form-item>
         <a-input
-          autocomplete="nickname"
+          v-decorator="formItemOptions.nickname"
+          :autocomplete="false"
           size="large"
           placeholder="昵称">
           <a-icon
@@ -32,13 +30,12 @@
         </a-input>
       </a-form-item>
 
-      <a-form-item
-        :field-decorator-options="formItemOptions.gender"
-        field-decorator-id="gender">
+      <a-form-item>
         <a-button-group
+          v-decorator="formItemOptions.gender"
           class="dp-gender"
           size="large"
-          autocomplete="false">
+          :autocomplete="false">
           <a-button
             :type="gender.ifman ? 'primary':'default'"
             icon="man"
@@ -72,13 +69,12 @@
             </div>
           </div>
         </template>
-        <a-form-item
-          :field-decorator-options="formItemOptions.password"
-          field-decorator-id="password">
+        <a-form-item>
           <a-input
+            v-decorator="formItemOptions.password"
             size="large"
             type="password"
-            autocomplete="false"
+            :autocomplete="false"
             placeholder="至少6位密码，区分大小写"
             @click="handlePasswordInputClick"
             @input="clearpassword2">
@@ -90,10 +86,9 @@
         </a-form-item>
       </a-popover>
 
-      <a-form-item
-        :field-decorator-options="formItemOptions.mobile"
-        field-decorator-id="mobile">
+      <a-form-item>
         <a-input
+          v-decorator="formItemOptions.mobile"
           size="large"
           placeholder="11 位手机号"
           autocomplete="false">
@@ -115,7 +110,7 @@
           注册
         </a-button>
         <router-link
-          :to="{ name: 'Login' }"
+          :to="{ name: 'login' }"
           class="login">
           使用已有账户登录
         </router-link>
@@ -148,64 +143,54 @@ export default {
   name: 'Register',
   data () {
     return {
-      form: null,
+      form: this.$form.createForm(this),
       formItemOptions: {
-        username: {
+        username: ['username', {
           initialValue: '',
-          rules: [
-            {
-              required: true,
-              message: '请输入用户名'
-            }
-          ]
-        },
-        nickname: {
+          rules: [{
+            required: true,
+            message: '请输入用户名'
+          }]
+        }],
+        nickname: ['nickname', {
           initialValue: '',
-          rules: [
-            {
-              required: true,
-              message: '请输入昵称'
-            }
-          ]
-        },
-        gender: {
+          rules: [{
+            required: true,
+            message: '请输入昵称'
+          }]
+        }],
+        gender: ['gender', {
           initialValue: '',
-          rules: [
-            {
-              required: true,
-              message: '请选择性别'
-            }
-          ]
-        },
-        password: {
+          rules: [{
+            required: true,
+            message: '请选择性别'
+          }]
+        }],
+        password: ['password', {
           initialValue: '',
-          rules: [
-            {
-              required: true,
-              message: '至少6位密码，区分大小写'
-            },
-            {
-              validator: this.handlePasswordLevel
-            }
-          ]
-        },
-        mobile: {
+          rules: [{
+            required: true,
+            message: '至少6位密码，区分大小写'
+          },
+          {
+            validator: this.handlePasswordLevel
+          }]
+        }],
+        mobile: ['mobile', {
           initialValue: '',
-          rules: [
-            {
-              required: true,
-              message: '请输入手机号'
-            },
-            {
-              max: 11,
-              message: '手机号位数不能超过11位'
-            },
-            {
-              validator: this.mobileCheck
-            }
-          ],
+          rules: [{
+            required: true,
+            message: '请输入手机号'
+          },
+          {
+            max: 11,
+            message: '手机号位数不能超过11位'
+          },
+          {
+            validator: this.mobileCheck
+          }],
           validateTrigger: 'blur'
-        }
+        }]
       },
       clearpassword: null,
       gender: {
@@ -308,6 +293,8 @@ export default {
 
     handleSubmit () {
       this.form.validateFields((err, values) => {
+        console.log('----')
+        console.log(this.form.getFieldsValue())
         if (!err) {
           this.$emit('register', values)
         }
@@ -323,10 +310,6 @@ export default {
         duration: 4
       })
       this.registerBtn = false
-    },
-
-    autoFormCreate (form) {
-      this.form = form
     }
   }
 }

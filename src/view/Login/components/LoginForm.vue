@@ -43,7 +43,7 @@
 
     <a-form-item>
       <router-link
-        :to="{ name: 'Register' }"
+        :to="{ name: 'register' }"
         class="register">
         注册账户
       </router-link>
@@ -102,9 +102,6 @@ export default {
             })
         }
       })
-    },
-    autoFormCreate (form) {
-      this.form = form
     }
   }
 }

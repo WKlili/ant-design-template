@@ -6,6 +6,12 @@ docs: https://wklili.github.io/ant-design-template-deepexi/docs
 仅提供样式模版，需遵守路由规则
 ```
 
+## cli工具
+```
+npm install deepxi-cli -g
+dp-cli
+```
+
 ## Project setup
 ```
 npm install

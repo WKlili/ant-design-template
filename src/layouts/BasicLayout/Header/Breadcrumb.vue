@@ -8,7 +8,7 @@
           <span
             class="name"
             @click.stop="jump(item)">
-            {{ (item.meta.name) }}
+            {{ $t(item.meta.name) }}
           </span>
         </a-breadcrumb-item>
       </template>

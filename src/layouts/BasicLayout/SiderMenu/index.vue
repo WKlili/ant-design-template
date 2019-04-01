@@ -21,13 +21,13 @@
     </div>
 
     <a-menu
+      :default-open-keys="[$route.matched[0].name]"
+      :selected-keys="selectedKeys"
+      :open-keys="openKeys"
       theme="dark"
       mode="inline"
-      :default-open-keys="openKeys"
-      :open-keys="openKeys"
-      :selected-keys="selectedKeys"
-      @openChange="onOpenChange"
-      @select="jump">
+      @openChange="openChange"
+      @select="select">
       <template v-for="item in menuList">
         <template v-if="!item.hidden">
           <a-menu-item
@@ -78,57 +78,25 @@ export default {
   },
   watch: {
     $route ({ name }) {
-      this.updateDefaultKeys(name)
+      this.openChange([name.split('_')[0]])
+      this.updateDefaultKeys()
     }
   },
   created () {
     this.menuList = this.$router.options.routes
-    this.rootSubmenuKeys = this.menuList.map(menu => menu.name)
-  },
-  mounted () {
-    this.updateDefaultKeys(this.$route.name)
+    this.updateDefaultKeys()
   },
   methods: {
-    updateDefaultKeys (key, level) {
-      const routerName = key.split('_')
-      this.openKeys = [routerName[0]]
-
-      if (routerName.length < 3) {
-        this.selectedKeys = [key]
-        return
-      }
-
-      if ((!level && routerName.length >= 3) || level < 3) {
-        this.selectedKeys = [routerName.slice(0, routerName.length - 1).join('_')]
-        return
-      }
-
-      if (level >= 3) {
-        this.selectedKeys = [key]
-        this.openKeys.push(`${routerName[0]}_${routerName[1]}`)
-      }
+    updateDefaultKeys () {
+      let routeName = this.$route.meta.routeName
+      routeName = routeName.indexOf('-') !== -1 ? routeName.split('-')[0] : routeName
+      this.selectedKeys = [routeName]
     },
-    jump ({ item, key, selectedKeys }) {
-      this.updateDefaultKeys(key, item.level)
-      if (this.$route.name === key) return
-
-      this.$router.push({
-        name: key
-      })
+    select ({ key }) {
+      this.$router.push({ name: key })
     },
-    onOpenChange (openKeys) {
-      const latestOpenKey = openKeys.find(key => this.openKeys.indexOf(key) === -1)
-
-      if (!this.subMenuCollapsed) {
-        this.openKeys = openKeys
-        return
-      }
-
-      if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-        this.openKeys = openKeys
-      } else {
-        this.openKeys = latestOpenKey ? [latestOpenKey] : []
-      }
+    openChange (menuItem) {
+      this.openKeys = menuItem
     }
   }
 }

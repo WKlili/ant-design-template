@@ -21,7 +21,6 @@
     </div>
 
     <a-menu
-      :default-open-keys="[$route.matched[0].name]"
       :selected-keys="selectedKeys"
       :open-keys="openKeys"
       theme="dark"
@@ -70,7 +69,7 @@ export default {
       VUE_APP_ENV: process.env.VUE_APP_ENV,
       VUE_APP_NAME: process.env.VUE_APP_NAME,
       menuList: [],
-      openKeys: [],
+      openKeys: [this.$route.matched[0].name],
       rootSubmenuKeys: [],
       selectedKeys: [],
       subMenuCollapsed: true

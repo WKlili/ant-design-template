@@ -4,7 +4,7 @@ export default {
   path: '/Home',
   name: 'home',
   meta: {
-    name: 'Home',
+    name: 'navList.home',
     icon: 'dashboard'
   },
   component: BasicLayout,
@@ -12,7 +12,7 @@ export default {
     path: 'index',
     name: 'home_index',
     meta: {
-      name: 'home_index',
+      name: 'navList.home_index',
       routeName: 'home_index'
     },
     component: () => import('./index')
@@ -21,7 +21,7 @@ export default {
     name: 'home_index_other',
     hidden: true,
     meta: {
-      name: 'other',
+      name: 'navList.other',
       routeName: 'home_index'
     },
     component: () => import('./other')
@@ -30,7 +30,7 @@ export default {
     name: 'home_index_last',
     hidden: true,
     meta: {
-      name: 'last',
+      name: 'navList.last',
       routeName: 'home_index'
     },
     component: () => import('./last')

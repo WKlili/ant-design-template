@@ -9,7 +9,7 @@
           v-decorator="formItemOptions.username"
           size="large"
           :autocomplete="false"
-          placeholder="用户名">
+          :placeholder="$t('register.userName')">
           <a-icon
             slot="prefix"
             class="icon"
@@ -22,7 +22,7 @@
           v-decorator="formItemOptions.nickname"
           :autocomplete="false"
           size="large"
-          placeholder="昵称">
+          :placeholder="$t('register.nickName')">
           <a-icon
             slot="prefix"
             class="icon"
@@ -40,13 +40,13 @@
             :type="gender.ifman ? 'primary':'default'"
             icon="man"
             @click.stop.prevent="setGender('man')">
-            Male
+            {{ $t('register.male') }}
           </a-button>
           <a-button
             :type="gender.ifwoman ? 'primary':'default'"
             icon="woman"
             @click.stop.prevent="setGender('woman')">
-            Female
+            {{ $t('register.female') }}
           </a-button>
         </a-button-group>
       </a-form-item>
@@ -58,14 +58,14 @@
         <template slot="content">
           <div :style="{ width: '240px' }">
             <div :class="['user-register', passwordLevelClass]">
-              强度：<span>{{ passwordLevelName }}</span>
+              {{ $t('register.strength') }}：<span>{{ passwordLevelName }}</span>
             </div>
             <a-progress
               :percent="state.percent"
               :show-info="false"
               :stroke-color=" passwordLevelColor " />
             <div style="margin-top: 10px;">
-              <span>请至少输入 6 个字符。请不要使用容易被猜到的密码。</span>
+              <span>{{ $t('register.passwordTip') }}</span>
             </div>
           </div>
         </template>
@@ -75,7 +75,7 @@
             size="large"
             type="password"
             :autocomplete="false"
-            placeholder="至少6位密码，区分大小写"
+            :placeholder="$t('register.passwordPlaceHolder')"
             @click="handlePasswordInputClick"
             @input="clearpassword2">
             <a-icon
@@ -90,7 +90,7 @@
         <a-input
           v-decorator="formItemOptions.mobile"
           size="large"
-          placeholder="11 位手机号"
+          :placeholder="$t('register.phonePlaceHolder')"
           autocomplete="false">
           <a-icon
             slot="prefix"
@@ -107,12 +107,12 @@
           type="primary"
           class="register-button"
           @click.stop.prevent="handleSubmit">
-          注册
+          {{ $t('register.register') }}
         </a-button>
         <router-link
           :to="{ name: 'login' }"
           class="login">
-          使用已有账户登录
+          {{ $t('register.login') }}
         </router-link>
       </a-form-item>
     </a-form>
@@ -120,12 +120,6 @@
 </template>
 
 <script>
-const levelNames = {
-  0: '低',
-  1: '低',
-  2: '中',
-  3: '强'
-}
 const levelClass = {
   0: 'error',
   1: 'error',
@@ -149,28 +143,28 @@ export default {
           initialValue: '',
           rules: [{
             required: true,
-            message: '请输入用户名'
+            message: this.$t('register.inputUserName')
           }]
         }],
         nickname: ['nickname', {
           initialValue: '',
           rules: [{
             required: true,
-            message: '请输入昵称'
+            message: this.$t('register.inputNickName')
           }]
         }],
         gender: ['gender', {
           initialValue: '',
           rules: [{
             required: true,
-            message: '请选择性别'
+            message: this.$t('register.inputGender')
           }]
         }],
         password: ['password', {
           initialValue: '',
           rules: [{
             required: true,
-            message: '至少6位密码，区分大小写'
+            message: this.$t('register.inputPassword')
           },
           {
             validator: this.handlePasswordLevel
@@ -180,11 +174,11 @@ export default {
           initialValue: '',
           rules: [{
             required: true,
-            message: '请输入手机号'
+            message: this.$t('register.inputPhone')
           },
           {
             max: 11,
-            message: '手机号位数不能超过11位'
+            message: this.$t('register.phoneLength')
           },
           {
             validator: this.mobileCheck
@@ -213,6 +207,12 @@ export default {
       return levelClass[this.state.passwordLevel]
     },
     passwordLevelName () {
+      const levelNames = {
+        0: this.$t('register.lowPwd'),
+        1: this.$t('register.lowPwd'),
+        2: this.$t('register.centerPwd'),
+        3: this.$t('register.highPwd')
+      }
       return levelNames[this.state.passwordLevel]
     },
     passwordLevelColor () {
@@ -253,7 +253,7 @@ export default {
         if (level === 0) {
           this.state.percent = 10
         }
-        callback(new Error('密码强度不够'))
+        callback(new Error(this.$t('register.pwdNotStrength')))
       }
     },
 
@@ -268,7 +268,7 @@ export default {
     handlePasswordCheck (rule, value, callback) {
       let password = this.form.getFieldValue('password')
       if (value && password && value.trim() !== password.trim()) {
-        callback(new Error('两次密码不一致'))
+        callback(new Error(this.$t('register.pwdNotSame')))
       }
       callback()
     },
@@ -286,7 +286,7 @@ export default {
     mobileCheck (rule, value, callback) {
       let mobile = this.form.getFieldValue('mobile')
       if (!/^[1][0-9]{10}$/.test(mobile)) {
-        callback(new Error('请输入有效的手机号码'))
+        callback(new Error(this.$t('register.phoneNotUseful')))
       }
       callback()
     },
@@ -303,10 +303,10 @@ export default {
 
     requestFailed (err) {
       this.$notification['error']({
-        message: '错误',
+        message: this.$t('register.err'),
         description:
           ((err.response || {}).data || {}).message ||
-          '请求出现错误，请稍后再试',
+          this.$t('register.requestErr'),
         duration: 4
       })
       this.registerBtn = false

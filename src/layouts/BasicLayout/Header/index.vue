@@ -16,10 +16,21 @@
           </div>
           <a-menu slot="overlay">
             <a-menu-item @click.native="logout">
-              <span>退出登录</span>
+              <span>{{ $t('common.exit') }}</span>
             </a-menu-item>
           </a-menu>
         </a-dropdown>
+        <a-select
+          :default-value="defalutValue"
+          style="width: 80px;marginRight:20px"
+          @change="handleChange">
+          <a-select-option
+            v-for="(item,index) in languages"
+            :key="index"
+            :value="item.value">
+            {{ item.name }}
+          </a-select-option>
+        </a-select>
       </div>
     </a-layout-header>
     <breadcrumb />
@@ -39,14 +50,29 @@ export default {
       type: Boolean
     }
   },
+  data () {
+    return {
+      defalutValue: '中文'
+    }
+  },
   computed: {
     ...mapState({
       userInfo: state => state.user.info
-    })
+    }),
+    languages () {
+      return [
+        { name: this.$t('common.chinese'), value: 'cn' },
+        { name: this.$t('common.english'), value: 'en' }
+      ]
+    }
   },
   methods: {
     logout () {
       this.$store.dispatch('user/logout')
+    },
+    handleChange (item) {
+      const Transform = new CustomEvent('selectLanguage', { 'detail': item })
+      window.dispatchEvent(Transform)
     }
   }
 }
@@ -69,6 +95,7 @@ export default {
 
 .PageHeader .pointer {
   cursor: pointer;
+  float: left;
 }
 
 .PageHeader .Header {

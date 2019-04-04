@@ -12,7 +12,8 @@ export default {
     path: 'index',
     name: 'dashboard_index',
     meta: {
-      name: 'navList.index'
+      name: 'navList.index',
+      routeName: 'dashboard_index'
     },
     component: () => import('./index')
   }, {
@@ -20,14 +21,16 @@ export default {
     name: 'dashboard_table',
     hidden: true,
     meta: {
-      name: 'navList.table'
+      name: 'navList.table',
+      routeName: 'dashboard_table'
     },
     component: () => import('./table')
   }, {
     path: 'form',
     name: 'dashboard_form',
     meta: {
-      name: 'navList.form'
+      name: 'navList.form',
+      routeName: 'dashboard_form'
     },
     component: () => import('./form')
   }]

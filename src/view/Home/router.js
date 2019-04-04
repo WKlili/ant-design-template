@@ -12,7 +12,8 @@ export default {
     path: 'index',
     name: 'home_index',
     meta: {
-      name: 'navList.home_index'
+      name: 'navList.home_index',
+      routeName: 'home_index'
     },
     component: () => import('./index')
   }, {
@@ -20,7 +21,8 @@ export default {
     name: 'home_index_other',
     hidden: true,
     meta: {
-      name: 'navList.other'
+      name: 'navList.other',
+      routeName: 'home_index'
     },
     component: () => import('./other')
   }, {
@@ -28,7 +30,8 @@ export default {
     name: 'home_index_last',
     hidden: true,
     meta: {
-      name: 'navList.last'
+      name: 'navList.last',
+      routeName: 'home_index'
     },
     component: () => import('./last')
   }]

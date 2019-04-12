@@ -4,7 +4,7 @@
       class="logo"
       :style="{background: theme === 'dark' ? '#002140' : '#fff'}">
       <img
-        src="../images/logo.png"
+        src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
         alt="logo">
       <a-tooltip placement="rightTop">
         <template slot="title">

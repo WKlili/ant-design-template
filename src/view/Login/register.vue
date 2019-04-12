@@ -7,7 +7,7 @@
             <div class="title">
               <img
                 class="logo"
-                src="../../layouts/BasicLayout/images/logo.png"
+                src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
                 alt="">
               <span>
                 {{ env.VUE_APP_NAME }} {{ env.VUE_APP_ENV }}

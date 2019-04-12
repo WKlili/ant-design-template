@@ -1,7 +1,7 @@
 # Ant Design Admin Template
-demo: https://wklili.github.io/ant-design-template-deepexi
+demo: https://wklili.github.io/ant-design-template
 <br>
-docs: https://wklili.github.io/ant-design-template-deepexi/docs
+docs: https://wklili.github.io/ant-design-template/docs
 ```
 仅提供样式模版，需遵守路由规则
 ```

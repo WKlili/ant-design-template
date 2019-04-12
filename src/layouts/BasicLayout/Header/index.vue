@@ -34,13 +34,12 @@
         </a-select>
       </div>
       <span
-        v-if="isShowTheme"
         class="right , changeStyle"
         @click="showModal">更换主题</span>
     </a-layout-header>
     <breadcrumb />
 
-    <div v-if="isShowTheme">
+    <div>
       <a-modal
         v-model="visible"
         :width="500"
@@ -57,6 +56,7 @@
             重置主题
           </a-button>
           <a-button
+            v-if="isShowTheme"
             style="margin-right:15px"
             @click="exportLess">
             修改配置文件
@@ -138,7 +138,6 @@ export default {
     logout () {
       this.$store.dispatch('user/logout')
     },
-
     showModal () {
       this.visible = true
     },

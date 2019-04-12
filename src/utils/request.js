@@ -1,7 +1,9 @@
 import axios from 'axios'
+import NProgress from 'nprogress'
 import { getToken } from './token'
 import * as antd from 'ant-design-vue'
 import store from '../store'
+import router from '../router'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_API_URL + '/',
@@ -12,10 +14,20 @@ const service = axios.create({
 })
 
 service.interceptors.request.use(config => {
+  store.commit('progress/update', { ifAjax: true })
   const token = getToken()
 
   if (token) {
     config.headers['X-Token'] = token
+  }
+  if (store.state.progress.currentRouter !== router.history.current.fullPath) {
+    store.commit('progress/update', { ajaxState: 0 })
+  }
+  store.commit('progress/update', { currentRouter: router.history.current.fullPath })
+  store.commit('progress/update', { ajaxState: 1 })
+
+  if (router) {
+    config.router = router.history.current.fullPath
   }
 
   return config
@@ -37,10 +49,17 @@ service.interceptors.response.use(
       return Promise.reject(new Error(response.data.msg))
     }
 
+    if (response.config.router !== '/') {
+      store.commit('progress/update', { ajaxState: -1 })
+    }
+    if (store.state.progress.ajaxState === 0) {
+      NProgress.done()
+      store.commit('progress/update', { ifAjax: false })
+    }
     return response.data.data
   },
   error => {
-    console.error('error', error)
+    console.log('error', error)
     return Promise.reject(error)
   }
 )

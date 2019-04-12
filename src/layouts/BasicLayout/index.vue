@@ -1,7 +1,12 @@
 <template>
   <a-layout id="components-layout-demo-custom-trigger">
-    <sider-menu :collapsed="collapsed" />
-    <a-layout>
+    <sider-menu
+      :collapsed="collapsed"
+      @moveRight="moveRight"
+      @moveLeft="moveLeft" />
+    <a-layout
+      id="mainpager"
+      ref="mainpager">
       <page-header
         :collapsed="collapsed"
         @trigger="(val) => {collapsed = val}" />
@@ -20,6 +25,7 @@
 <script>
 import SiderMenu from './SiderMenu'
 import PageHeader from './Header/index'
+const move = require('move-js')
 
 export default {
   components: { SiderMenu, PageHeader },
@@ -27,6 +33,25 @@ export default {
     return {
       VUE_APP_FOOTER: process.env.VUE_APP_FOOTER,
       collapsed: false
+    }
+  },
+  watch: {
+    '$store.state.menu.showsmallMenu' (newVal, old) {
+      if (!newVal) {
+        this.moveLeft()
+      }
+    }
+  },
+  methods: {
+    moveRight () {
+      move(this.$refs['mainpager'].$el)
+        .to(256, 0)
+        .end()
+    },
+    moveLeft () {
+      move(this.$refs['mainpager'].$el)
+        .to(0, 0)
+        .end()
     }
   }
 }

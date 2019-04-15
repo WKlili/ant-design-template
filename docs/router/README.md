@@ -14,5 +14,5 @@
 
 - 若菜单不需要显示在菜单中则添加hidden属性，并设置为true。
 
-- eg: https://github.com/WKlili/ant-design-template-deepexi/blob/master/src/view/Home/router.js
+- eg: https://github.com/WKlili/ant-design-template/blob/master/src/view/Home/router.js
 

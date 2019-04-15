@@ -24,9 +24,12 @@ const options = {
 const config = {
   publicPath: './',
   lintOnSave: process.env.NODE_ENV !== 'production',
-  productionSourceMap: false,
+  productionSourceMap: process.env.NODE_ENV !== 'production',
   css: {
     loaderOptions: {
+      css: {
+        javascriptEnabled: true
+      },
       less: {
         modifyVars: {
           'border-radius-base': '2px'

@@ -4,34 +4,34 @@ export default {
   path: '/Home',
   name: 'home',
   meta: {
-    name: 'navList.home',
+    name: 'test.Home',
     icon: 'dashboard'
   },
   component: BasicLayout,
   children: [{
     path: 'index',
-    name: 'home_index',
+    name: 'homeIndex',
     meta: {
-      name: 'navList.home_index',
-      routeName: 'home_index'
+      name: 'test.home_index',
+      routeName: 'home_homeIndex'
     },
     component: () => import('./index')
   }, {
     path: 'other',
-    name: 'home_index_other',
+    name: 'homeIndexOther',
     hidden: true,
     meta: {
-      name: 'navList.other',
-      routeName: 'home_index'
+      name: 'other',
+      routeName: 'home_homeIndex'
     },
     component: () => import('./other')
   }, {
     path: 'last',
-    name: 'home_index_last',
+    name: 'homeIndexLast',
     hidden: true,
     meta: {
-      name: 'navList.last',
-      routeName: 'home_index'
+      name: 'last',
+      routeName: 'home_homeIndex'
     },
     component: () => import('./last')
   }]

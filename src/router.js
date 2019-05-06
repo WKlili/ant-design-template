@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Meta from 'vue-meta'
 
 import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+import 'nprogress/nprogress.css' // 这个样式必须引入
 
 import store from './store'
 

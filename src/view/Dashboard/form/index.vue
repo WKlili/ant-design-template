@@ -1,6 +1,6 @@
 <template>
   <div class="form">
-    {{ $t('pageContent.form') }}
+    form
   </div>
 </template>
 
@@ -11,4 +11,5 @@ export default {
 </script>
 
 <style scoped>
+.form{}
 </style>

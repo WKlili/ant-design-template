@@ -1,4 +1,12 @@
 export default {
+  test: {
+    index: '看板',
+    dashboard_index: 'index',
+    dashboard_table: 'table',
+    dashboard_form: 'form',
+    Home: 'Home',
+    home_index: 'home_index'
+  },
   common: {
     chinese: '中文',
     english: '英文',

@@ -4,7 +4,7 @@
       class="logo"
       :style="{background: theme === 'dark' ? '#002140' : '#fff'}">
       <img
-        src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+        src="https://preview.pro.loacg.com/assets/logo.b36f7a7f.svg"
         alt="logo">
       <a-tooltip placement="rightTop">
         <template slot="title">
@@ -25,7 +25,7 @@
       :theme="theme"
       mode="inline"
       @openChange="openChange"
-      @select="select">
+      @click="select">
       <template v-for="item in menuList">
         <template v-if="!item.hidden">
           <a-menu-item
@@ -102,8 +102,8 @@ export default {
 .SiderMenu .logo, .SiderMenus .logo{
   display: flex;
   justify-content: center;
-  height: 64px;
-  padding: 16px;
+  height: 60px;
+  padding: 14px;
   color: #ffffff;
   overflow: hidden;
   white-space: nowrap;

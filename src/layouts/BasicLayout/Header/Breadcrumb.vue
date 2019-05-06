@@ -36,10 +36,9 @@ export default {
     update () {
       this.levelList = this.$route.matched.filter(item => item.name)
     },
-    jump (router) {
-      this.$router.push({
-        name: router.name
-      })
+    jump ({ path }) {
+      // console.log(router)
+      this.$router.push(path)
     }
   }
 }
@@ -47,6 +46,7 @@ export default {
 
 <style scoped>
 .Breadcrumb {
+  height: 50px!important;
   background: #fff;
   padding: 0 32px;
   border-bottom: 1px solid #e8e8e8;
@@ -54,7 +54,7 @@ export default {
 
 .Breadcrumb .name {
   display: inline-block;
-  line-height: 44px;
+  line-height: 50px;
   cursor: pointer;
 }
 </style>

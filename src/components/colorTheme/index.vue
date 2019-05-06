@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import PhotoShop from '@/components/colorPicker'
+import PhotoShop from './picker'
 
 export default {
   components: {
@@ -43,7 +43,7 @@ export default {
     }
   },
   methods: {
-    getColor (res) {
+    async getColor (res) {
       this.colors = res.hex
       this.dataForm.map(item => {
         if (item.name === res.name) item.color = res.hex
@@ -51,6 +51,9 @@ export default {
       this.style = this.arrayToObj(this.dataForm)
       localStorage.setItem('app-theme', JSON.stringify(this.style))
       window.less.modifyVars(this.style)
+      this.$store.commit('theme/updateIsReset', false)
+      await this.$api.exportLess.set(this.dataForm)
+      this.$message.success('修改主题成功')
     },
     arrayToObj (arr) {
       let obj = {}

@@ -1,12 +1,6 @@
 <template>
   <div class="PageHeader">
     <a-layout-header class="Header">
-      <a-icon
-        v-if="$store.state.menu.showBigMenu"
-        class="trigger"
-        :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-        @click="$emit('trigger', !collapsed)" />
-
       <div class="right">
         <a-dropdown class="userComponent">
           <div class="pointer">
@@ -34,20 +28,19 @@
         </a-select>
       </div>
       <span
+        v-if="isShowTheme"
         class="right , changeStyle"
         @click="showModal">更换主题</span>
     </a-layout-header>
-    <breadcrumb />
 
-    <div>
+    <div v-if="isShowTheme">
       <a-modal
         v-model="visible"
         :width="500"
         title="主题修改"
         :footer="null"
         :body-style="{margin: ' 0 auto'}">
-        <!-- <photo-shop @getColors="getColor" /> -->
-        <color-theme :data-form="dataForm" />
+        <color-theme :data-form="$store.state.theme.isReset ? initTheme : dataForm" />
         <div style="width:320px;margin: 0 auto">
           <a-button
             style="margin-right:15px"
@@ -56,7 +49,6 @@
             重置主题
           </a-button>
           <a-button
-            v-if="isShowTheme"
             style="margin-right:15px"
             @click="exportLess">
             修改配置文件
@@ -72,13 +64,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import Breadcrumb from './Breadcrumb'
-import colorTheme from '@/components/colorTheme'
+import colorTheme from '@/components/colorTheme/index'
 
 export default {
   name: 'PageHeader',
   components: {
-    Breadcrumb,
     colorTheme
   },
   props: {
@@ -97,17 +87,7 @@ export default {
         { name: '@secondary-color', color: '#0000ff' },
         { name: '@text-color', color: '#333' },
         { name: '@text-color-secondary', color: '#333' },
-        { name: '@heading-color', color: '#fa8c16' },
-        { name: '@layout-header-background', color: '#001529' },
-        { name: '@btn-primary-bg', color: '#397dcc' }
-      ],
-      initTheme: [
-        { name: '@primary-color', color: '#1890ff' },
-        { name: '@link-color', color: '#1890ff' },
-        { name: '@secondary-color', color: '#0000ff' },
-        { name: '@text-color', color: '#333' },
-        { name: '@text-color-secondary', color: '#333' },
-        { name: '@heading-color', color: '#fa8c16' },
+        { name: '@heading-color', color: '#333333' },
         { name: '@layout-header-background', color: '#001529' },
         { name: '@btn-primary-bg', color: '#397dcc' }
       ],
@@ -138,13 +118,30 @@ export default {
     logout () {
       this.$store.dispatch('user/logout')
     },
+
     showModal () {
       this.visible = true
     },
-    resetTheme () {
+    async resetTheme () {
+      let initTheme = [
+        { name: '@primary-color', color: '#1890ff' },
+        { name: '@link-color', color: '#1890ff' },
+        { name: '@secondary-color', color: '#0000ff' },
+        { name: '@text-color', color: '#333' },
+        { name: '@text-color-secondary', color: '#333' },
+        { name: '@heading-color', color: '#333333' },
+        { name: '@layout-header-background', color: '#001529' },
+        { name: '@btn-primary-bg', color: '#397dcc' }
+      ]
+      this.initTheme = initTheme
+      this.$store.commit('theme/updateIsReset', true)
       localStorage.setItem('app-theme', '{}')
-      window.less.modifyVars()
+      let vars = {}
+      vars = this.arrayToObj(initTheme)
+      window.less.modifyVars(vars)
       this.visible = false
+      await this.$api.exportLess.set(initTheme)
+      this.$message.success('重置主题成功')
     },
     ok () {
       this.visible = false
@@ -175,6 +172,10 @@ export default {
 </script>
 
 <style scoped>
+.PageHeader {
+  height: 60px;
+}
+
 .PageHeader .right {
   float: right;
   margin: 0 16px;
@@ -201,15 +202,8 @@ export default {
   position: relative;
   background: #fff;
   padding: 0;
+  height: 60px;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-}
-
-.trigger {
-  font-size: 18px;
-  line-height: 64px;
-  padding: 0 24px;
-  cursor: pointer;
-  transition: color 0.3s;
 }
 
 .trigger:hover {

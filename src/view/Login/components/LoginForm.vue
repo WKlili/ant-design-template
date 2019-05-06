@@ -8,7 +8,7 @@
         v-decorator="formItemOptions.username"
         autocomplete="username"
         size="large"
-        :placeholder="$t('login.userName')">
+        placeholder="用户名">
         <a-icon
           slot="prefix"
           class="icon"
@@ -21,7 +21,7 @@
         autocomplete="current-password"
         size="large"
         type="password"
-        :placeholder="$t('login.password')">
+        placeholder="密码">
         <a-icon
           slot="prefix"
           class="icon"
@@ -37,7 +37,7 @@
         html-type="submit"
         class="login-form-button"
         @click.stop="check">
-        {{ $t('login.login') }}
+        登录
       </a-button>
     </a-form-item>
 
@@ -45,7 +45,7 @@
       <router-link
         :to="{ name: 'register' }"
         class="register">
-        {{ $t('login.register') }}
+        注册账户
       </router-link>
     </a-form-item>
   </a-form>

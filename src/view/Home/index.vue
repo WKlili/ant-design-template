@@ -1,11 +1,11 @@
 <template>
   <div class="home">
-    <span @click.stop="$router.push({name: 'dashboard_index'})">
-      {{ $t('pageContent.dashboard_index') }}
+    <span @click.stop="$router.push({name: 'dashboardIndex'})">
+      dashboard_index
     </span>
     <br>
-    <span @click.stop="$router.push({name: 'home_index_other', query: { plan: 'private' }})">
-      {{ $t('pageContent.home_other') }}
+    <span @click.stop="$router.push({name: 'homeIndexOther', query: { plan: 'private' }})">
+      home_other
     </span>
     <router-view />
   </div>

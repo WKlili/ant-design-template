@@ -1,7 +1,15 @@
 export default {
+  test: {
+    index: 'dashboard',
+    dashboard_index: 'index',
+    dashboard_table: 'table',
+    dashboard_form: 'form',
+    Home: 'Home',
+    home_index: 'home_index'
+  },
   common: {
-    chinese: 'chinese',
-    english: 'english',
+    chinese: 'Chinese',
+    english: 'English',
     exit: 'exit'
   },
   navList: {

@@ -1,6 +1,6 @@
 <template>
   <div class="table">
-    {{ $t('pageContent.table') }}
+    table
   </div>
 </template>
 

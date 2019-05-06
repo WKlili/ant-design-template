@@ -1,6 +1,6 @@
+import store from 'store'
 import { getToken, setToken } from '../utils/token'
 import api from '../api'
-import store from 'store'
 import router from '../router'
 
 export default {
@@ -50,9 +50,11 @@ export default {
     logout ({ commit, state }) {
       setToken('')
       store.remove('userInfo')
+
       commit('update', {
         token: ''
       })
+
       router.replace('/login')
     }
   }

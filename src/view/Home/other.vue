@@ -1,6 +1,6 @@
 <template>
   <div class="other">
-    <span @click.stop="$router.push({name: 'home_index_last', query: { plan2: 'private1111' }})">
+    <span @click.stop="$router.push({name: 'homeIndexLast', query: { plan2: 'private1111' }})">
       to last
     </span>
   </div>

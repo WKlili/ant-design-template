@@ -3,7 +3,8 @@
     <a-layout-sider
       v-if="isShowBigMenu"
       v-model="collapsed"
-      class="SiderMenu"
+      class="customizeSiderMenu"
+      :width="256"
       :trigger="null"
       collapsible>
       <side-menu
@@ -16,31 +17,27 @@
         @select="select" />
     </a-layout-sider>
 
-    <div>
-      <a-drawer
-        title=""
-        placement="left"
-        :closable="false"
-        :visible="$store.state.menu.showsmallMenu"
-        @close="onClose">
-        <div class="SiderMenus">
-          <side-menu
-            theme="light"
-            :collapsed="collapsed"
-            :selected-keys="selectedKeys"
-            :open-keys="openKeys"
-            :menu-list="menuList"
-            @openChange="openChange"
-            @select="select" />
-        </div>
+    <a-drawer
+      title=""
+      placement="left"
+      :closable="false"
+      :visible="$store.state.menu.showsmallMenu"
+      @close="onClose">
+      <side-menu
+        theme="light"
+        :collapsed="collapsed"
+        :selected-keys="selectedKeys"
+        :open-keys="openKeys"
+        :menu-list="menuList"
+        @openChange="openChange"
+        @select="select" />
 
-        <a-icon
-          v-if="$store.state.menu.showsmallMenu"
-          class="icons-copy"
-          :type="$store.state.menu.showsmallMenu ? 'close':'bars'"
-          @click="hideSmall" />
-      </a-drawer>
-    </div>
+      <a-icon
+        v-if="$store.state.menu.showsmallMenu"
+        class="icons-copy"
+        :type="$store.state.menu.showsmallMenu ? 'close':'bars'"
+        @click="hideSmall" />
+    </a-drawer>
 
     <div
       v-if="!$store.state.menu.showBigMenu">
@@ -54,7 +51,6 @@
 
 <script>
 import SideMenu from './menu'
-import { setTimeout } from 'timers'
 
 export default {
   name: 'SiderMenu',
@@ -79,8 +75,7 @@ export default {
     }
   },
   watch: {
-    $route ({ name }) {
-      this.openChange([name.split('_')[0]])
+    $route () {
       this.updateDefaultKeys()
     },
     currentClientWidth (newVal, oldVal) {
@@ -92,14 +87,27 @@ export default {
   },
   methods: {
     updateDefaultKeys () {
-      let routeName = this.$route.meta.routeName
-      this.selectedKeys = [routeName]
+      let routeName = this.$route.meta.routeName.split('_')
+      if (!this.openKeys.includes(routeName[0])) {
+        this.openChange([routeName[0], ...this.openKeys])
+      }
+
+      this.selectedKeys = [routeName[1]]
     },
     select (key) {
       this.$router.push({ name: key })
     },
-    openChange (menuItem) {
-      this.openKeys = menuItem
+    openChange (routerItemsArray) {
+      if (routerItemsArray.length < this.openKeys.length) {
+        this.openKeys = routerItemsArray
+        return
+      }
+
+      routerItemsArray.map((item, index) => {
+        if (!this.openKeys.includes(item)) {
+          this.openKeys.push(item)
+        }
+      })
     },
     initProject () {
       if (document.body.clientWidth === 0) {
@@ -151,17 +159,10 @@ export default {
 </script>
 
 <style scoped>
-.SiderMenu {
+.customizeSiderMenu {
   height: 100vh;
-}
-
-.SiderMenus .logo img {
-  height: 100%;
-}
-
-.SiderMenus .logo span {
-  height: 100%;
-  text-indent: 10px;
+  z-index: 1;
+  box-shadow:2px 0 6px rgba(131, 134, 138, 0.35);
 }
 
 .icons{

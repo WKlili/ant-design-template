@@ -9,7 +9,7 @@
           v-decorator="formItemOptions.username"
           size="large"
           :autocomplete="false"
-          :placeholder="$t('register.userName')">
+          placeholder="用户名">
           <a-icon
             slot="prefix"
             class="icon"
@@ -22,7 +22,7 @@
           v-decorator="formItemOptions.nickname"
           :autocomplete="false"
           size="large"
-          :placeholder="$t('register.nickName')">
+          placeholder="昵称">
           <a-icon
             slot="prefix"
             class="icon"
@@ -40,13 +40,13 @@
             :type="gender.ifman ? 'primary':'default'"
             icon="man"
             @click.stop.prevent="setGender('man')">
-            {{ $t('register.male') }}
+            Male
           </a-button>
           <a-button
             :type="gender.ifwoman ? 'primary':'default'"
             icon="woman"
             @click.stop.prevent="setGender('woman')">
-            {{ $t('register.female') }}
+            Female
           </a-button>
         </a-button-group>
       </a-form-item>
@@ -58,14 +58,14 @@
         <template slot="content">
           <div :style="{ width: '240px' }">
             <div :class="['user-register', passwordLevelClass]">
-              {{ $t('register.strength') }}：<span>{{ passwordLevelName }}</span>
+              强度：<span>{{ passwordLevelName }}</span>
             </div>
             <a-progress
               :percent="state.percent"
               :show-info="false"
               :stroke-color=" passwordLevelColor " />
             <div style="margin-top: 10px;">
-              <span>{{ $t('register.passwordTip') }}</span>
+              <span>请至少输入 6 个字符。请不要使用容易被猜到的密码。</span>
             </div>
           </div>
         </template>
@@ -75,7 +75,7 @@
             size="large"
             type="password"
             :autocomplete="false"
-            :placeholder="$t('register.passwordPlaceHolder')"
+            placeholder="至少6位密码，区分大小写"
             @click="handlePasswordInputClick"
             @input="clearpassword2">
             <a-icon
@@ -90,7 +90,7 @@
         <a-input
           v-decorator="formItemOptions.mobile"
           size="large"
-          :placeholder="$t('register.phonePlaceHolder')"
+          placeholder="11 位手机号"
           autocomplete="false">
           <a-icon
             slot="prefix"
@@ -107,12 +107,12 @@
           type="primary"
           class="register-button"
           @click.stop.prevent="handleSubmit">
-          {{ $t('register.register') }}
+          注册
         </a-button>
         <router-link
           :to="{ name: 'login' }"
           class="login">
-          {{ $t('register.login') }}
+          使用已有账户登录
         </router-link>
       </a-form-item>
     </a-form>
@@ -120,6 +120,12 @@
 </template>
 
 <script>
+const levelNames = {
+  0: '低',
+  1: '低',
+  2: '中',
+  3: '强'
+}
 const levelClass = {
   0: 'error',
   1: 'error',
@@ -143,28 +149,28 @@ export default {
           initialValue: '',
           rules: [{
             required: true,
-            message: this.$t('register.inputUserName')
+            message: '请输入用户名'
           }]
         }],
         nickname: ['nickname', {
           initialValue: '',
           rules: [{
             required: true,
-            message: this.$t('register.inputNickName')
+            message: '请输入昵称'
           }]
         }],
         gender: ['gender', {
           initialValue: '',
           rules: [{
             required: true,
-            message: this.$t('register.inputGender')
+            message: '请选择性别'
           }]
         }],
         password: ['password', {
           initialValue: '',
           rules: [{
             required: true,
-            message: this.$t('register.inputPassword')
+            message: '至少6位密码，区分大小写'
           },
           {
             validator: this.handlePasswordLevel
@@ -174,11 +180,11 @@ export default {
           initialValue: '',
           rules: [{
             required: true,
-            message: this.$t('register.inputPhone')
+            message: '请输入手机号'
           },
           {
             max: 11,
-            message: this.$t('register.phoneLength')
+            message: '手机号位数不能超过11位'
           },
           {
             validator: this.mobileCheck
@@ -207,12 +213,6 @@ export default {
       return levelClass[this.state.passwordLevel]
     },
     passwordLevelName () {
-      const levelNames = {
-        0: this.$t('register.lowPwd'),
-        1: this.$t('register.lowPwd'),
-        2: this.$t('register.centerPwd'),
-        3: this.$t('register.highPwd')
-      }
       return levelNames[this.state.passwordLevel]
     },
     passwordLevelColor () {
@@ -253,7 +253,7 @@ export default {
         if (level === 0) {
           this.state.percent = 10
         }
-        callback(new Error(this.$t('register.pwdNotStrength')))
+        callback(new Error('密码强度不够'))
       }
     },
 
@@ -268,7 +268,7 @@ export default {
     handlePasswordCheck (rule, value, callback) {
       let password = this.form.getFieldValue('password')
       if (value && password && value.trim() !== password.trim()) {
-        callback(new Error(this.$t('register.pwdNotSame')))
+        callback(new Error('两次密码不一致'))
       }
       callback()
     },
@@ -286,15 +286,13 @@ export default {
     mobileCheck (rule, value, callback) {
       let mobile = this.form.getFieldValue('mobile')
       if (!/^[1][0-9]{10}$/.test(mobile)) {
-        callback(new Error(this.$t('register.phoneNotUseful')))
+        callback(new Error('请输入有效的手机号码'))
       }
       callback()
     },
 
     handleSubmit () {
       this.form.validateFields((err, values) => {
-        console.log('----')
-        console.log(this.form.getFieldsValue())
         if (!err) {
           this.$emit('register', values)
         }
@@ -303,10 +301,10 @@ export default {
 
     requestFailed (err) {
       this.$notification['error']({
-        message: this.$t('register.err'),
+        message: '错误',
         description:
           ((err.response || {}).data || {}).message ||
-          this.$t('register.requestErr'),
+          '请求出现错误，请稍后再试',
         duration: 4
       })
       this.registerBtn = false

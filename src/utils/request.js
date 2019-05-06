@@ -1,9 +1,14 @@
 import axios from 'axios'
 import NProgress from 'nprogress'
 import { getToken } from './token'
-import * as antd from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 import store from '../store'
 import router from '../router'
+
+function overNProgress () {
+  NProgress.done()
+  store.commit('progress/update', { ifAjax: false })
+}
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_API_URL + '/',
@@ -38,13 +43,15 @@ service.interceptors.response.use(
     const msg = response.data.msg
 
     if (msg === '未登陆/登陆失效，请重新登陆') {
-      antd.message.error(msg)
+      overNProgress()
+      message.error(msg)
 
       return store.dispatch('user/logout')
     }
 
     if (response.data.code === 'ERROR') {
-      antd.message.error(msg || '服务器在开小差')
+      overNProgress()
+      message.error(msg || '服务器在开小差')
 
       return Promise.reject(new Error(response.data.msg))
     }
@@ -53,12 +60,12 @@ service.interceptors.response.use(
       store.commit('progress/update', { ajaxState: -1 })
     }
     if (store.state.progress.ajaxState === 0) {
-      NProgress.done()
-      store.commit('progress/update', { ifAjax: false })
+      overNProgress()
     }
     return response.data.data
   },
   error => {
+    overNProgress()
     console.log('error', error)
     return Promise.reject(error)
   }

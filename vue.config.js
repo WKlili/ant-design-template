@@ -34,8 +34,10 @@ const config = {
   css: {
     loaderOptions: {
       less: {
-        modifyVars: isDev ? devTheme : prodTheme,
-        javascriptEnabled: true
+        lessOptions: {
+          modifyVars: isDev ? devTheme : prodTheme,
+          javascriptEnabled: true
+        }
       }
     }
   },

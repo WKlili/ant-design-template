@@ -266,7 +266,7 @@ export default {
     },
 
     handlePasswordCheck (rule, value, callback) {
-      let password = this.form.getFieldValue('password')
+      const password = this.form.getFieldValue('password')
       if (value && password && value.trim() !== password.trim()) {
         callback(new Error('两次密码不一致'))
       }
@@ -284,7 +284,7 @@ export default {
     },
 
     mobileCheck (rule, value, callback) {
-      let mobile = this.form.getFieldValue('mobile')
+      const mobile = this.form.getFieldValue('mobile')
       if (!/^[1][0-9]{10}$/.test(mobile)) {
         callback(new Error('请输入有效的手机号码'))
       }
@@ -300,7 +300,7 @@ export default {
     },
 
     requestFailed (err) {
-      this.$notification['error']({
+      this.$notification.error({
         message: '错误',
         description:
           ((err.response || {}).data || {}).message ||

@@ -17,10 +17,14 @@ export default {
   },
   created () {
     const t = this
-    window.addEventListener('selectLanguage', function (e) {
-      i18n.locale = e.detail
-      t.locale = i18n
-    }, false)
+    window.addEventListener(
+      'selectLanguage',
+      function (e) {
+        i18n.locale = e.detail
+        t.locale = i18n
+      },
+      false
+    )
   },
   destroyed () {
     window.removeEventListener('selectLanguage', { passive: false })
@@ -29,7 +33,9 @@ export default {
 </script>
 
 <style scoped>
-#app, body, html {
+#app,
+body,
+html {
   height: 100%;
 }
 </style>

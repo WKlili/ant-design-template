@@ -52,12 +52,12 @@ export default {
   },
   methods: {
     moveRight () {
-      move(this.$refs['mainpager'].$el)
+      move(this.$refs.mainpager.$el)
         .to(256, 0)
         .end()
     },
     moveLeft () {
-      move(this.$refs['mainpager'].$el)
+      move(this.$refs.mainpager.$el)
         .to(0, 0)
         .end()
     }

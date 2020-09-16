@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     updateDefaultKeys () {
-      let routeName = this.$route.meta.routeName.split('_')
+      const routeName = this.$route.meta.routeName.split('_')
       if (!this.openKeys.includes(routeName[0])) {
         this.openChange([routeName[0], ...this.openKeys])
       }

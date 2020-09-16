@@ -60,17 +60,21 @@ export default {
       formItemOptions: {
         username: [
           'username',
-          { rules: [{
-            required: true,
-            message: '请输入用户名'
-          }] }
+          {
+            rules: [{
+              required: true,
+              message: '请输入用户名'
+            }]
+          }
         ],
         password: [
           'password',
-          { rules: [{
-            required: true,
-            message: '请输入密码'
-          }] }
+          {
+            rules: [{
+              required: true,
+              message: '请输入密码'
+            }]
+          }
         ]
       }
     }

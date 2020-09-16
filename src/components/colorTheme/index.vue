@@ -56,7 +56,7 @@ export default {
       this.$message.success('修改主题成功')
     },
     arrayToObj (arr) {
-      let obj = {}
+      const obj = {}
       for (let i = 0; i < arr.length; i++) {
         obj[arr[i].name] = arr[i].color
       }

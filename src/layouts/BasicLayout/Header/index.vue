@@ -123,7 +123,7 @@ export default {
       this.visible = true
     },
     async resetTheme () {
-      let initTheme = [
+      const initTheme = [
         { name: '@primary-color', color: '#1890ff' },
         { name: '@link-color', color: '#1890ff' },
         { name: '@secondary-color', color: '#0000ff' },
@@ -150,7 +150,7 @@ export default {
       this.colors = res
     },
     arrayToObj (arr) {
-      let obj = {}
+      const obj = {}
       for (let i = 0; i < arr.length; i++) {
         obj[arr[i].name] = arr[i].color
       }
@@ -164,7 +164,7 @@ export default {
       this.$store.commit('menu/updateSmall', true)
     },
     handleChange (item) {
-      const Transform = new CustomEvent('selectLanguage', { 'detail': item })
+      const Transform = new CustomEvent('selectLanguage', { detail: item })
       window.dispatchEvent(Transform)
     }
   }

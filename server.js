@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.post('/exportLess', function (req, res) {
-  let lessObj = req.body
+  const lessObj = req.body
   let str = '@import "../../../node_modules/ant-design-vue/lib/style/themes/default.less"; \n'
 
   lessObj.map((item, index) => {

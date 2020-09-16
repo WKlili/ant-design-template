@@ -28,7 +28,7 @@ const routes = RoutesList.map(item => {
   return item
 })
 
-let router = new Router({
+const router = new Router({
   routes: [
     { path: '/', redirect: '/Dashboard/index', hidden: true },
     ...routes,
